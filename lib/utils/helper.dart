@@ -64,3 +64,11 @@ List<Video> getFakeVideos() {
         keywords: "clay,face,janet blake,sculpture")
   ];
 }
+
+enum VideoSort { id, name, duration }
+
+extension ParseEnumName on VideoSort {
+  String filterName() {
+    return this.toString().split('').last;
+  }
+}

@@ -69,6 +69,7 @@ enum VideoSort { id, name, duration }
 
 extension ParseEnumName on VideoSort {
   String filterName() {
-    return this.toString().split('').last;
+    // ignore: unnecessary_this
+    return this.toString().split('.').last;
   }
 }

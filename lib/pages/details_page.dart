@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onplayvid/models/video.dart';
+import 'package:onplayvid/pages/video_player_page.dart';
 import 'package:onplayvid/utils/constants.dart';
 
 class DetailsPage extends StatelessWidget {
@@ -32,7 +33,10 @@ class _VideoDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        _DetailsPoster(posteUrl: video.thumbnail),
+        _DetailsPoster(
+          posteUrl: video.thumbnail,
+          videoUrl: video.videoUrl,
+        ),
         const SizedBox(
           height: 20,
         ),
@@ -66,21 +70,39 @@ class _VideoDetail extends StatelessWidget {
 
 class _DetailsPoster extends StatelessWidget {
   final String posteUrl;
-  const _DetailsPoster({Key? key, required this.posteUrl}) : super(key: key);
+  final String videoUrl;
+  const _DetailsPoster(
+      {Key? key, required this.posteUrl, required this.videoUrl})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: posteUrl,
-      child: SizedBox(
-        width: double.infinity,
-        height: 200,
-        child: Image.network(
-          posteUrl,
-          fit: BoxFit.fitWidth,
-        ),
-      ),
-    );
+        tag: posteUrl,
+        child: GestureDetector(
+            onTap: (() => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => VideoPlayerScreen(url: videoUrl)))),
+            child: Stack(
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  height: 200,
+                  child: Image.network(
+                    posteUrl,
+                    fit: BoxFit.fitWidth,
+                  ),
+                ),
+                const Center(
+                  child: Icon(
+                    Icons.play_circle_outline,
+                    size: 200,
+                    color: Colors.white70,
+                  ),
+                )
+              ],
+            )));
   }
 }
 
